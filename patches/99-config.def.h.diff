@@ -1,0 +1,53 @@
+diff --git a/config.def.h b/config.def.h
+index f672b3a..4199e8d 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -45,7 +45,7 @@ static const Layout layouts[] = {
+ };
+ 
+ /* key definitions */
+-#define MODKEY Mod1Mask
++#define MODKEY Mod4Mask
+ #define TAGKEYS(KEY,TAG) \
+ 	{ MODKEY,                       KEY,      view,           {.ui = 1 << TAG} }, \
+ 	{ MODKEY|ControlMask,           KEY,      toggleview,     {.ui = 1 << TAG} }, \
+@@ -58,7 +58,7 @@ static const Layout layouts[] = {
+ /* commands */
+ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
+-static const char *termcmd[]  = { "st", NULL };
++static const char *termcmd[]  = { "urxvt", NULL };
+ 
+ /*
+  * Xresources preferences to load at startup
+@@ -81,8 +81,21 @@ ResourcePref resources[] = {
+ 
+ #include "patches/shiftview.c"
+ 
++/* reference: http://economical-with-words.blogspot.com/2013/02/taking-screenshots-in-dwm.html
++ */
++static const char *scrotthewholeshebang[]   = { "scrot.sh", NULL };
++static const char *scrotregioncmd[]         = { "scrot.sh", "-s", "-f", NULL };
++static const char *scrotfocusedcmd[]        = { "scrot.sh", "--focused", NULL };
++static const char *scrotxclip[]             = { "scrot-xclip.sh", "-s", "-f", NULL };
++
+ static Key keys[] = {
+ 	/* modifier                     key        function        argument */
++	{ 0,                            XK_Print,  spawn,          {.v = scrotthewholeshebang } },
++	/* { ShiftMask,                    XK_Print,  spawn,          SHCMD("scrot.sh -s -f 2>&1 | /command/tai64n | tee -a /tmp/scrot.log") }, */
++	{ ShiftMask,                    XK_Print,  spawn,          {.v = scrotregioncmd } },
++	{ MODKEY,                       XK_Print,  spawn,          {.v = scrotfocusedcmd } },
++	{ ControlMask|ShiftMask,        XK_Print,  spawn,          {.v = scrotxclip } },
++
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+ 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+ 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+@@ -115,6 +128,8 @@ static Key keys[] = {
+ 	TAGKEYS(                        XK_7,                      6)
+ 	TAGKEYS(                        XK_8,                      7)
+ 	TAGKEYS(                        XK_9,                      8)
++	{ MODKEY,                       XK_Prior, shiftview,       {.i = -1 } },
++	{ MODKEY,                       XK_Next, shiftview,        {.i = +1 } },
+ 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+ };
+ 
