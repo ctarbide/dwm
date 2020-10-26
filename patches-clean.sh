@@ -11,9 +11,9 @@ git add --all patches-clean.sh patches-apply.sh patches
 # discard all other changes
 git checkout .
 
+# list here the files you want to keep between runs of
+# patches-apply.sh
 git clean -dxf \
-    -e /patches \
-    -e /patches-apply.sh \
     -e /.vscode
 
 echo "all done for ${0##*/}"
