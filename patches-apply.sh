@@ -2,17 +2,11 @@
 
 set -eu
 
-git read-tree patches
+./patches-clean.sh
 
-git clean -dxf \
-    -e /patches \
-    -e /patches-apply.sh \
-    -e /.vscode
-
-make config.h
-
-for i in patches/*.diff; do
+for i in patches/??-*.diff; do
+    echo "applying (${i%%-*}) ${i}"
     patch -Nu -p1 < "${i}"
 done
 
-echo all done
+echo "all done for ${0##*/}"
