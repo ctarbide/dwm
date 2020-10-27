@@ -26,18 +26,18 @@ index f672b3a..4199e8d 100644
  
 +/* reference: http://economical-with-words.blogspot.com/2013/02/taking-screenshots-in-dwm.html
 + */
-+static const char *scrotthewholeshebang[]   = { "scrot.sh", NULL };
-+static const char *scrotregioncmd[]         = { "scrot.sh", "-s", "-f", NULL };
-+static const char *scrotfocusedcmd[]        = { "scrot.sh", "--focused", NULL };
-+static const char *scrotxclip[]             = { "scrot-xclip.sh", "-s", "-f", NULL };
++static const char *scrotthewholeshebangcmd[]  = { "scrot.sh", NULL };
++static const char *scrotregioncmd[]           = { "scrot.sh", "-s", "-f", NULL };
++static const char *scrotfocusedcmd[]          = { "scrot.sh", "--focused", NULL };
++static const char *scrotxclipcmd[]            = { "scrot-xclip.sh", "-s", "-f", NULL };
 +
  static Key keys[] = {
  	/* modifier                     key        function        argument */
-+	{ 0,                            XK_Print,  spawn,          {.v = scrotthewholeshebang } },
++	{ 0,                            XK_Print,  spawn,          {.v = scrotthewholeshebangcmd } },
 +	/* { ShiftMask,                    XK_Print,  spawn,          SHCMD("scrot.sh -s -f 2>&1 | /command/tai64n | tee -a /tmp/scrot.log") }, */
 +	{ ShiftMask,                    XK_Print,  spawn,          {.v = scrotregioncmd } },
 +	{ MODKEY,                       XK_Print,  spawn,          {.v = scrotfocusedcmd } },
-+	{ ControlMask|ShiftMask,        XK_Print,  spawn,          {.v = scrotxclip } },
++	{ ControlMask|ShiftMask,        XK_Print,  spawn,          {.v = scrotxclipcmd } },
 +
  	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
  	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
@@ -51,3 +51,34 @@ index f672b3a..4199e8d 100644
  	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
  };
  
+diff --git a/config.def.h b/config.def.h
+index 4199e8d..8428031 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -88,6 +88,16 @@ static const char *scrotregioncmd[]         = { "scrot.sh", "-s", "-f", NULL };
+ static const char *scrotfocusedcmd[]        = { "scrot.sh", "--focused", NULL };
+ static const char *scrotxclip[]             = { "scrot-xclip.sh", "-s", "-f", NULL };
+ 
++#include <X11/XF86keysym.h>
++
++/* reference: https://gist.github.com/neuro-sys/2570361
++ * reference: https://tools.suckless.org/slock/patches/mediakeys/
++ * reference: https://hmagellan.com/blog/2020/aug/13-volume-dwm.html
++ */
++static const char *volupcmd[] = { "amixer", "-D", "default", "sset", "Master", "Playback", "5%+", NULL };
++static const char *voldowncmd[] = { "amixer", "-D", "default", "sset", "Master", "Playback", "5%-", NULL };
++static const char *voltogglecmd[] = { "amixer", "-D", "default", "sset", "Master", "Playback", "toggle", NULL };
++
+ static Key keys[] = {
+ 	/* modifier                     key        function        argument */
+ 	{ 0,                            XK_Print,  spawn,          {.v = scrotthewholeshebangcmd } },
+@@ -95,6 +104,9 @@ static Key keys[] = {
+ 	{ ShiftMask,                    XK_Print,  spawn,          {.v = scrotregioncmd } },
+ 	{ MODKEY,                       XK_Print,  spawn,          {.v = scrotfocusedcmd } },
+ 	{ ControlMask|ShiftMask,        XK_Print,  spawn,          {.v = scrotxclipcmd } },
++        { 0,                            XF86XK_AudioRaiseVolume,  spawn, {.v = volupcmd } },
++        { 0,                            XF86XK_AudioLowerVolume,  spawn, {.v = voldowncmd } },
++        { 0,                            XF86XK_AudioMute,         spawn, {.v = voltogglecmd } },
+ 
+ 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
+ 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
