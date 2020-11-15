@@ -27,9 +27,9 @@ index f672b3a..4199e8d 100644
 +/* reference: http://economical-with-words.blogspot.com/2013/02/taking-screenshots-in-dwm.html
 + */
 +static const char *scrotthewholeshebangcmd[]  = { "scrot.sh", NULL };
-+static const char *scrotregioncmd[]           = { "scrot.sh", "-s", "-f", NULL };
++static const char *scrotregioncmd[]           = { "scrot.sh", "-s", NULL };
 +static const char *scrotfocusedcmd[]          = { "scrot.sh", "--focused", NULL };
-+static const char *scrotxclipcmd[]            = { "scrot-xclip.sh", "-s", "-f", NULL };
++static const char *scrotxclipcmd[]            = { "scrot-xclip.sh", "-s", NULL };
 +
  static Key keys[] = {
  	/* modifier                     key        function        argument */
@@ -57,7 +57,7 @@ index 4199e8d..8428031 100644
 +++ b/config.def.h
 @@ -88,6 +88,16 @@ static const char *scrotregioncmd[]         = { "scrot.sh", "-s", "-f", NULL };
  static const char *scrotfocusedcmd[]        = { "scrot.sh", "--focused", NULL };
- static const char *scrotxclip[]             = { "scrot-xclip.sh", "-s", "-f", NULL };
+ static const char *scrotxclip[]             = { "scrot-xclip.sh", "-s", NULL };
  
 +#include <X11/XF86keysym.h>
 +
