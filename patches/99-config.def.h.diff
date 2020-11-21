@@ -16,7 +16,7 @@ index ef6a251..77f8a20 100644
  static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
  static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor, NULL };
 -static const char *termcmd[]  = { "st", NULL };
-+static const char *termcmd[]  = { "urxvt", NULL };
++static const char *termcmd[]  = { "dwm-terminal.sh", NULL };
  
  /*
   * Xresources preferences to load at startup
