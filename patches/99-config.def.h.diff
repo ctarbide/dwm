@@ -99,3 +99,59 @@ index 2bd75a6..89c4bbf 100644
  	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
  	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
  	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
+diff --git a/config.def.h b/config.def.h
+index 89c4bbf..359f64b 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -29,7 +29,7 @@ static const Rule rules[] = {
+ 	 */
+ 	/* class      instance    title       tags mask     isfloating   monitor */
+ 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+-	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
++	/* { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 }, */
+ };
+ 
+ /* layout(s) */
+diff --git a/config.def.h b/config.def.h
+index 359f64b..dc7f97f 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -46,6 +46,9 @@ static const Layout layouts[] = {
+ 	{ ">M>",      centeredfloatingmaster },
+ };
+ 
++/* https://dwm.suckless.org/customisation/windows_key/
++ */
++
+ /* key definitions */
+ #define MODKEY Mod4Mask
+ #define TAGKEYS(KEY,TAG) \
+diff --git a/config.def.h b/config.def.h
+index 5d4dcae..86f8e50 100644
+--- a/config.def.h
++++ b/config.def.h
+@@ -104,6 +104,16 @@ static const char *volupcmd[] = { "amixer", "-D", "default", "sset", "Master", "
+ static const char *voldowncmd[] = { "amixer", "-D", "default", "sset", "Master", "Playback", "5%-", NULL };
+ static const char *voltogglecmd[] = { "amixer", "-D", "default", "sset", "Master", "Playback", "toggle", NULL };
+ 
++void
++focusswap(const Arg *arg)
++{
++	static int direction = 1;
++	Arg a = {0};
++	a.i = direction;
++	focusstack(&a);
++	direction *= -1;
++}
++
+ static Key keys[] = {
+ 	/* modifier                     key        function        argument */
+ 	{ 0,                            XK_Print,  spawn,          {.v = scrotthewholeshebangcmd } },
+@@ -121,6 +131,7 @@ static Key keys[] = {
+ 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+ 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+ 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
++	{ Mod1Mask,                     XK_Tab,    focusswap,      {0} },
+ 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
+ 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
+ 	{ MODKEY,                       XK_h,      setmfact,       {.f = -0.01} },
