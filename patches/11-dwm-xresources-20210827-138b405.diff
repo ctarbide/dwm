@@ -1,20 +1,20 @@
-From 2832bd78a690606a48a7e1d370cd60fd92ee4988 Mon Sep 17 00:00:00 2001
-From: MLquest8 <miskuzius@gmail.com>
-Date: Fri, 12 Jun 2020 15:43:31 +0400
-Subject: [PATCH] handle various setting of various types from Xresources
+From f30583c6e2ab5e7de6ef4ebf156076ac0f6e69fc Mon Sep 17 00:00:00 2001
+From: Jack Bird <jack.bird@durham.ac.uk>
+Date: Fri, 27 Aug 2021 00:53:14 +0100
+Subject: [PATCH] xresources updated for 138b405
 
 ---
- config.def.h | 54 ++++++++++++++++++++++++++-------------
+ config.def.h | 61 ++++++++++++++++++++++++++++++--------------
  drw.c        |  2 +-
  drw.h        |  2 +-
  dwm.c        | 72 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 111 insertions(+), 19 deletions(-)
+ 4 files changed, 116 insertions(+), 21 deletions(-)
 
 diff --git a/config.def.h b/config.def.h
-index 1c0b587..e69f288 100644
+index a2ac963..87ac198 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1,21 +1,22 @@
+@@ -1,21 +1,23 @@
  /* See LICENSE file for copyright and license details. */
  
  /* appearance */
@@ -22,12 +22,8 @@ index 1c0b587..e69f288 100644
 -static const unsigned int snap      = 32;       /* snap pixel */
 -static const int showbar            = 1;        /* 0 means no bar */
 -static const int topbar             = 1;        /* 0 means bottom bar */
-+static unsigned int borderpx  = 1;        /* border pixel of windows */
-+static unsigned int snap      = 32;       /* snap pixel */
-+static int showbar            = 1;        /* 0 means no bar */
-+static int topbar             = 1;        /* 0 means bottom bar */
- static const char *fonts[]          = { "monospace:size=10" };
- static const char dmenufont[]       = "monospace:size=10";
+-static const char *fonts[]          = { "monospace:size=10" };
+-static const char dmenufont[]       = "monospace:size=10";
 -static const char col_gray1[]       = "#222222";
 -static const char col_gray2[]       = "#444444";
 -static const char col_gray3[]       = "#bbbbbb";
@@ -37,6 +33,13 @@ index 1c0b587..e69f288 100644
 -	/*               fg         bg         border   */
 -	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
 -	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
++static unsigned int borderpx  = 1;        /* border pixel of windows */
++static unsigned int snap      = 32;       /* snap pixel */
++static int showbar            = 1;        /* 0 means no bar */
++static int topbar             = 1;        /* 0 means bottom bar */
++static char font[]            = "monospace:size=10";
++static char dmenufont[]       = "monospace:size=10";
++static const char *fonts[]          = { font };
 +static char normbgcolor[]           = "#222222";
 +static char normbordercolor[]       = "#444444";
 +static char normfgcolor[]           = "#bbbbbb";
@@ -50,7 +53,7 @@ index 1c0b587..e69f288 100644
  };
  
  /* tagging */
-@@ -32,9 +33,9 @@ static const Rule rules[] = {
+@@ -32,9 +34,9 @@ static const Rule rules[] = {
  };
  
  /* layout(s) */
@@ -60,10 +63,10 @@ index 1c0b587..e69f288 100644
 +static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 +static int nmaster     = 1;    /* number of clients in master area */
 +static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+ static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
  
  static const Layout layouts[] = {
- 	/* symbol     arrange function */
-@@ -56,9 +57,28 @@ static const Layout layouts[] = {
+@@ -57,9 +59,30 @@ static const Layout layouts[] = {
  
  /* commands */
  static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
@@ -75,6 +78,8 @@ index 1c0b587..e69f288 100644
 + * Xresources preferences to load at startup
 + */
 +ResourcePref resources[] = {
++		{ "font",               STRING,  &font },
++		{ "dmenufont",          STRING,  &dmenufont },
 +		{ "normbgcolor",        STRING,  &normbgcolor },
 +		{ "normbordercolor",    STRING,  &normbordercolor },
 +		{ "normfgcolor",        STRING,  &normfgcolor },
@@ -120,7 +125,7 @@ index 4bcd5ad..42b04ce 100644
  /* Cursor abstraction */
  Cur *drw_cur_create(Drw *drw, int shape);
 diff --git a/dwm.c b/dwm.c
-index 9fd0286..dc0d219 100644
+index 5e4d494..2214b19 100644
 --- a/dwm.c
 +++ b/dwm.c
 @@ -36,6 +36,7 @@
@@ -231,5 +236,5 @@ index 9fd0286..dc0d219 100644
  #ifdef __OpenBSD__
  	if (pledge("stdio rpath proc exec", NULL) == -1)
 -- 
-2.26.2
+2.33.0
 
