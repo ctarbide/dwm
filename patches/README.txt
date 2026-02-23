@@ -1,9 +1,5 @@
-# -*- mode: org; coding: utf-8-unix -*-
 
-#+STARTUP: indent
-
-* Workflow
-
+**************** workflow
 
 git add config.def.h
 
@@ -11,3 +7,4 @@ git add config.def.h
 
 git diff -u config.def.h >>patches/99-config.def.h.diff
 
+****************
