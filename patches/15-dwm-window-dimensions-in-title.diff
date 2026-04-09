@@ -1,0 +1,19 @@
+diff --git a/dwm.c b/dwm.c
+index 9355b00..d5904e3 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -780,8 +780,13 @@ drawbar(Monitor *m)
+ 
+ 	if ((w = m->ww - tw - x) > bh) {
+ 		if (m->sel) {
++			char buf[300];
++			snprintf(buf, sizeof(buf), "[%dx%d] %s",
++				m->sel->w,
++				m->sel->h,
++				m->sel->name);
+ 			drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
+-			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
++			drw_text(drw, x, 0, w, bh, lrpad / 2, buf, 0);
+ 			if (m->sel->isfloating)
+ 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
+ 		} else {
